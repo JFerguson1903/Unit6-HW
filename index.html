@@ -22,17 +22,92 @@
 
 <body>
     <!-- Jumbotron header-->
-    <header class="jumbotron jumbotron-fluid">
-        <h1 class="display-4">Weather Dashboard</h1>
+    <header class="jumbotron jumbotron-fluid bg-dark">
+        <h1 class="display-4 text-white text-center">Weather Dashboard</h1>
     </header>
 
-    <!-- search section on the left with history of results -->
-    <aside>
-        <section>
-            <!-- Font Awesome search icon -->
-            <i class="fas fa-search"></i>
-        </section>
-    </aside>
+
+    <div class="container">
+        <div class="row">
+            <!-- search section on the left with history of results -->
+            <aside class="col-4 bg-light">
+                <section>
+                    <h6>Search for a City:</h6>
+                    <input type="search" id="search">
+                    <button type="button" class="btn btn-primary">
+                        <!-- Font Awesome search icon -->
+                        <i class="fas fa-search"></i>
+                    </button>
+                </section>
+                <div class="list-group">
+                    <button type="button" class="list-group-item list-group-item-action active" aria-current="true">
+                      Current search
+                    </button>
+                    <button type="button" class="list-group-item list-group-item-action">Previous search</button>
+                    <button type="button" class="list-group-item list-group-item-action">Previous search</button>
+                    <button type="button" class="list-group-item list-group-item-action">Previous search</button>
+                </div>
+            </aside>
+
+            <main class="col-8">
+                <section id="cityCurrentDayDisplay">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4>Placeholder for city info</h4>
+                            <p class="temp">Temperature:</p>
+                            <p class="humidity">Humidity:</p>
+                            <p class="windSpeed">Wind Speed:</p>
+                            <p class="uvIndex">UV Index:</p>
+                        </div>
+                    </div>
+                </section>
+                <h4>5-Day Forecast:</h4>
+                <section id="cityFiveDayForcast" class="card-group">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5>Date</h5>
+                            <p class="weatherIcon"></p>
+                            <p class="temp">Temp:</p>
+                            <p class="humidity">Humidity:</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h5>Date</h5>
+                            <p class="weatherIcon"></p>
+                            <p class="temp">Temp:</p>
+                            <p class="humidity">Humidity:</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h5>Date</h5>
+                            <p class="weatherIcon"></p>
+                            <p class="temp">Temp:</p>
+                            <p class="humidity">Humidity:</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h5>Date</h5>
+                            <p class="weatherIcon"></p>
+                            <p class="temp">Temp:</p>
+                            <p class="humidity">Humidity:</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h5>Date</h5>
+                            <p class="weatherIcon"></p>
+                            <p class="temp">Temp:</p>
+                            <p class="humidity">Humidity:</p>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
 
 
     <!-- jQuery Bundle -->
