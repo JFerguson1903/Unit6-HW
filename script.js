@@ -1,3 +1,5 @@
+var results = "";
+
 // Constructing a URL to search Open Weather Map API for the Latitide and Longitude
 // var queryURL = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latitudeReturn + "&lon=" + longitudeReturn + "&appid=ae3e2e9bcf9bf274f436653d07f65b1c";
 
@@ -21,8 +23,33 @@ $(".btn-primary").on("click", function() {
         })
         // After the data comes back from the API
         .then(function(response) {
+            console.log(response);
             // Storing an array of results in the results variable
-            var results = [userSearch, response.coord.lat, response.coord.lon];
-            console.log(results);
+            results = [userSearch, response.coord.lat, response.coord.lon];
+
+            // calls function 
+            storeUserLocationSearch();
+        })
+        // If API fails, 
+        .fail(function(failure) {
+            console.log(failure.responseJSON.message);
         });
+
 });
+
+
+var previousUserSearch = JSON.parse(localStorage.getItem("userLocationSearch"));
+
+
+function storeUserLocationSearch() {
+    if (previousUserSearch === null) {
+        previousUserSearch = [];
+    }
+
+    previousUserSearch.unshift(results);
+
+    // Stores new data in local storage
+    localStorage.setItem("userLocationSearch", JSON.stringify(previousUserSearch));
+
+    $(".list-group").append(`<button type="button" class="list-group-item list-group-item-action active">${results[0]}</button>`);
+}
