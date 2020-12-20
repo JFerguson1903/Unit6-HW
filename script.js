@@ -88,10 +88,10 @@ function loadActiveSearch() {
                     `<div class="col-xs-12 col-lg-6 col-xl">
                         <div class="card text-white bg-primary">
                             <div class="card-body">
-                                <h5>Date</h5>
-                                <p class="weatherIcon"></p>
-                                <p>Temp:</p>
-                                <p>Humidity:</p>
+                                <h5>${DateTime.fromSeconds(response.daily[i].dt).toFormat('M/dd/yyyy')}</h5>
+                                <p><img class="weatherSymbol" src="http://openweathermap.org/img/wn/${response.daily[i].weather[0].icon}@2x.png" /></p>
+                                <p>Temp: ${response.daily[i].temp.max} F&#176;</p>
+                                <p>Humidity: ${response.daily[i].humidity}%</p>
                             </div>
                         </div>
                     </div>`);
