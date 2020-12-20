@@ -1,4 +1,5 @@
 var results = "";
+var DateTime = luxon.DateTime;
 
 // Event listener for btn-primary
 $(".btn-primary").on("click", function() {
@@ -116,7 +117,7 @@ $(document.body).on('click', '.list-group-item', function() {
 
             $(".uvIndex").empty().append(`<span class="badge ${uvScale}">${currentUV}</span>`);
 
-            $("currentDate").empty().append();
+            $(".currentDate").empty().append(DateTime.fromSeconds(response.current.dt).toFormat('(M/dd/yyyy)'));
 
             $(".currentIcon").empty().append(`<img class="weatherSymbol" src="http://openweathermap.org/img/wn/${response.current.weather[0].icon}@2x.png" />`);
 
