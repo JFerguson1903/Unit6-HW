@@ -2,7 +2,7 @@
 
 ## Description
 
-This quiz was created using Bootstrap CSS Framework, JavaScript, jQuery, Font Awesome, Luxon js library, & OpenWeather API.
+This Weather Dashboard was created using Bootstrap CSS Framework, JavaScript, jQuery, Font Awesome, Luxon js library, & OpenWeather API.
 
 I was given the assignment through Triliogy/WASHU Coding Bootcamp to create the Weather Dashboard that retrieved data from the third party application's API (OpenWeather API).  It was to run in the brower and feature "dynamically updated HTML and CSS". The user story was that, "AS A traveler, I WANT to see the weather outlook for multiple cities, SO THAT I can plan a trip accordingly".
 
