@@ -1,35 +1,6 @@
 var results = "";
 var DateTime = luxon.DateTime;
 
-// Event listener for btn-primary
-$(".btn-primary").on("click", function() {
-    // Assigning a variable for userSearch
-    var userSearch = $("#userSearch").val();
-
-    // Constructing a URL to search Open Weather Map API for the City,State
-    var cityAPISearch = "https://api.openweathermap.org/data/2.5/weather?q=" + userSearch + ",US&appid=ae3e2e9bcf9bf274f436653d07f65b1c";
-
-    // Performing our AJAX GET request
-    $.ajax({
-            url: cityAPISearch,
-            method: "GET"
-        })
-        // After the data comes back from the API
-        .then(function(response) {
-            console.log(response);
-            // Storing an array of results in the results variable
-            results = [userSearch, response.coord.lat, response.coord.lon];
-
-            // calls function 
-            storeUserLocationSearch();
-        })
-        // If API fails, 
-        .fail(function(failure) {
-            console.log(failure.responseJSON.message);
-        });
-
-});
-
 function displaySearchHistory() {
     // Empties out the previous entries of HTML so there aren't duplicates when it reloads
     $(".list-group").empty();
@@ -48,8 +19,6 @@ function displaySearchHistory() {
     }
 }
 
-
-
 function storeUserLocationSearch() {
     // Retreiving items from local storage and assigning it to a variable previousUserSearch
     var previousUserSearch = JSON.parse(localStorage.getItem("userLocationSearch"));
@@ -64,20 +33,10 @@ function storeUserLocationSearch() {
     // calls function 
     displaySearchHistory();
 }
-// calls function 
-displaySearchHistory();
 
-
-// Event listener for button list-group-item
-$(document.body).on('click', '.list-group-item', function() {
+function loadActiveSearch() {
     // Assigning a variable for userSearch
-    var cityStateButton = $(this).val();
-
-    // Removing the active class from previously selected cityState when a different cityStateButton is clicked
-    $(".active").removeClass("active");
-
-    // Add the active class to newly selected cityStateButton
-    $(this).addClass("active");
+    var cityStateButton = $(".active").val();
 
     // Retreiving items from local storage and assigning it to a variable previousUserSearch
     var previousUserSearch = JSON.parse(localStorage.getItem("userLocationSearch"));
@@ -121,15 +80,72 @@ $(document.body).on('click', '.list-group-item', function() {
 
             $(".currentIcon").empty().append(`<img class="weatherSymbol" src="http://openweathermap.org/img/wn/${response.current.weather[0].icon}@2x.png" />`);
 
+            $("#cityFiveDayForcast").empty();
 
-
-
-            // Storing an array of results in the results variable
-            //results = [userSearch, response.coord.lat, response.coord.lon];
+            for (var i = 1; i <= 5; i++) {
+                // Creates the div to append each item to
+                $("#cityFiveDayForcast").append(
+                    `<div class="col-xs-12 col-lg-6 col-xl">
+                        <div class="card text-white bg-primary">
+                            <div class="card-body">
+                                <h5>Date</h5>
+                                <p class="weatherIcon"></p>
+                                <p>Temp:</p>
+                                <p>Humidity:</p>
+                            </div>
+                        </div>
+                    </div>`);
+            }
         })
         // If API fails, 
         .fail(function(failure) {
             console.log(failure.responseJSON.message);
         });
+}
 
+$(document).ready(function() {
+    // calls functions
+    displaySearchHistory();
+    loadActiveSearch();
+});
+
+// Event listener for btn-primary
+$(".btn-primary").on("click", function() {
+    // Assigning a variable for userSearch
+    var userSearch = $("#userSearch").val();
+
+    // Constructing a URL to search Open Weather Map API for the City,State
+    var cityAPISearch = "https://api.openweathermap.org/data/2.5/weather?q=" + userSearch + ",US&appid=ae3e2e9bcf9bf274f436653d07f65b1c";
+
+    // Performing our AJAX GET request
+    $.ajax({
+            url: cityAPISearch,
+            method: "GET"
+        })
+        // After the data comes back from the API
+        .then(function(response) {
+            console.log(response);
+            // Storing an array of results in the results variable
+            results = [userSearch, response.coord.lat, response.coord.lon];
+
+            // calls function 
+            storeUserLocationSearch();
+        })
+        // If API fails, 
+        .fail(function(failure) {
+            console.log(failure.responseJSON.message);
+        });
+});
+
+// Event listener for button list-group-item
+$(document.body).on('click', '.list-group-item', function() {
+
+    // Removing the active class from previously selected cityState when a different cityStateButton is clicked
+    $(".active").removeClass("active");
+
+    // Add the active class to newly selected cityStateButton
+    $(this).addClass("active");
+
+    // run loadActiveSearch function
+    loadActiveSearch();
 });
