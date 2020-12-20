@@ -30,23 +30,30 @@
     <div class="container">
         <div class="row">
             <!-- search section on the left with history of results -->
-            <aside class="col-4 bg-light">
+            <aside class="col-6 col-md-4 bg-light">
                 <section>
                     <h6>Search for a City:</h6>
-                    <form class="form-inline">
-                        <input type="search" id="userSearch" placeholder="City,State">
-                        <button type="button" class="btn btn-primary">
-                            <!-- Font Awesome search icon -->
-                            <i class="fas fa-search"></i>
-                        </button>
+                    <form id="cityForm" class="row row-cols-auto align-items-center">
+                        <div class="col-lg pe-lg-0">
+                            <div class="input-group">
+                                <input type="search" id="userSearch" class="form-control" placeholder="City,State">
+                            </div>
+                        </div>
+                        <div class="col-lg ps-lg-0">
+                            <button type="submit" class="btn btn-primary">
+                                <!-- Font Awesome search icon -->
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
                     </form>
+                    <div id="searchAlert"></div>
                 </section>
-                <div class="list-group">
-                    <!-- Current search history buttons go here -->
+                <div class="list-group mt-2">
+                    <!-- Current search history buttons go here from js -->
                 </div>
             </aside>
 
-            <main class="col-8">
+            <main class="col-6 col-md-8">
                 <section id="cityCurrentDayDisplay">
                     <div class="card">
                         <div class="card-body">
@@ -65,7 +72,7 @@
                 <h4>5-Day Forecast:</h4>
                 <div class="container-full">
                     <section id="cityFiveDayForcast" class="row">
-                        <!-- five day forcast cards go here -->
+                        <!-- five day forcast cards go here from js -->
                     </section>
                 </div>
             </main>

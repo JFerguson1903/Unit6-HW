@@ -1,9 +1,11 @@
+// Global variables assigned
 var results = "";
 var DateTime = luxon.DateTime;
 
 function displaySearchHistory() {
     // Empties out the previous entries of HTML so there aren't duplicates when it reloads
     $(".list-group").empty();
+    $("#searchAlert").empty();
 
     // Retreiving items from local storage and assigning it to a variable previousUserSearch
     var previousUserSearch = JSON.parse(localStorage.getItem("userLocationSearch"));
@@ -35,6 +37,9 @@ function storeUserLocationSearch() {
 }
 
 function loadActiveSearch() {
+    // Empties out the previous entries of HTML so there aren't duplicates
+    $("#searchAlert").empty();
+
     // Assigning a variable for userSearch
     var cityStateButton = $(".active").val();
 
@@ -60,10 +65,13 @@ function loadActiveSearch() {
 
             // Emptying and then Appending data for seleceted city's current day information
             $(".displayedCity").empty().append(cityName);
+            $(".currentDate").empty().append(DateTime.fromSeconds(response.current.dt).toFormat('(M/dd/yyyy)'));
+            $(".currentIcon").empty().append(`<img class="weatherSymbol" src="http://openweathermap.org/img/wn/${response.current.weather[0].icon}@2x.png" />`);
             $(".temp").empty().append(response.current.temp);
             $(".humidity").empty().append(response.current.humidity);
             $(".windSpeed").empty().append(response.current.wind_speed);
 
+            // If statement to assign correct badge for uvScale
             var uvScale = "";
             var currentUV = response.current.uvi;
             if (currentUV <= 2) {
@@ -73,19 +81,16 @@ function loadActiveSearch() {
             } else {
                 uvScale = 'bg-warning';
             }
-
+            // Emptying and then Appending UV data
             $(".uvIndex").empty().append(`<span class="badge ${uvScale}">${currentUV}</span>`);
 
-            $(".currentDate").empty().append(DateTime.fromSeconds(response.current.dt).toFormat('(M/dd/yyyy)'));
-
-            $(".currentIcon").empty().append(`<img class="weatherSymbol" src="http://openweathermap.org/img/wn/${response.current.weather[0].icon}@2x.png" />`);
-
+            // Emptying the five day forcast 
             $("#cityFiveDayForcast").empty();
 
             for (var i = 1; i <= 5; i++) {
                 // Creates the div to append each item to
                 $("#cityFiveDayForcast").append(
-                    `<div class="col-xs-12 col-lg-6 col-xl">
+                    `<div class="col-xs-12 col-lg-6 col-xl mb-2">
                         <div class="card text-white bg-primary">
                             <div class="card-body">
                                 <h5>${DateTime.fromSeconds(response.daily[i].dt).toFormat('M/dd/yyyy')}</h5>
@@ -109,8 +114,14 @@ $(document).ready(function() {
     loadActiveSearch();
 });
 
-// Event listener for btn-primary
-$(".btn-primary").on("click", function() {
+// Form submit
+$("#cityForm").submit(function(e) {
+    // Stopping default form submit
+    e.preventDefault();
+
+    // Empties out the previous entries of HTML so there aren't duplicates
+    $("#searchAlert").empty();
+
     // Assigning a variable for userSearch
     var userSearch = $("#userSearch").val();
 
@@ -127,13 +138,18 @@ $(".btn-primary").on("click", function() {
             console.log(response);
             // Storing an array of results in the results variable
             results = [userSearch, response.coord.lat, response.coord.lon];
-
-            // calls function 
-            storeUserLocationSearch();
+            // Append alert if a city was not entered
+            if (userSearch === "") {
+                $("#searchAlert").append(`<div class="alert alert-danger" role="alert">Please enter City</div>`);
+            } else {
+                // calls function
+                storeUserLocationSearch();
+                loadActiveSearch();
+            }
         })
-        // If API fails, 
+        // If API fails, append response message 
         .fail(function(failure) {
-            console.log(failure.responseJSON.message);
+            $("#searchAlert").append(`<div class="alert alert-danger" role="alert">${failure.responseJSON.message}</div>`);
         });
 });
 
